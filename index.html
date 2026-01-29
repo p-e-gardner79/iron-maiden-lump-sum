@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Pension of the Beast</title>
+    <!-- Import Metal Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Metal+Mania&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- HEAVY METAL STYLES --- */
+        body {
+            background-color: #0f0f0f; /* Fallback if not embedded */
+        }
+
+        #pension-calc-wrapper {
+            font-family: 'Cinzel', serif;
+            color: #e5e5e5;
+            background-color: #0f0f0f;
+            background-image: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #000000 100%);
+            padding: 20px 0;
+            max-width: 1158px;
+            margin: 0 auto;
+            line-height: 1.5;
+            box-sizing: border-box;
+            font-size: 16px;
+            border: 2px solid #333;
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
+        }
+
+        #pension-calc-wrapper * { box-sizing: border-box; }
+
+        /* Keyboard Focus Accessibility - High Visibility Red */
+        #pension-calc-wrapper *:focus-visible {
+            outline: 3px solid #dc2626;
+            outline-offset: 2px;
+        }
+
+        h2 {
+            font-family: 'Metal Mania', cursive;
+            font-size: 2.5rem;
+            font-weight: 400;
+            color: #dc2626; /* Blood Red */
+            margin-bottom: 0.75rem;
+            text-align: center;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 0px #000, 0 0 10px rgba(220, 38, 38, 0.5);
+            letter-spacing: 0.05em;
+        }
+
+        .definition-text {
+            font-size: 1rem;
+            color: #d4d4d4;
+            margin-bottom: 2rem;
+            background: #171717;
+            padding: 1.25rem;
+            border-left: 5px solid #dc2626;
+            border-right: 1px solid #333;
+            border-top: 1px solid #333;
+            border-bottom: 1px solid #333;
+            border-radius: 0 4px 4px 0;
+            font-family: 'Cinzel', serif;
+        }
+        
+        .definition-text strong { color: #fbbf24; }
+
+        /* CARD STYLES */
+        .pc-card {
+            background: #171717;
+            padding: 1.5rem;
+            border-radius: 4px;
+            border: 1px solid #333;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            margin-bottom: 1.5rem;
+        }
+
+        /* INPUTS */
+        .pc-label { 
+            font-size: 1rem; 
+            font-weight: 700; 
+            color: #fbbf24; /* Maiden Yellow */
+            margin-bottom: 8px; 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        .pc-label svg { width: 20px; height: 20px; color: #dc2626; flex-shrink: 0; }
+
+        .pc-input { 
+            width: 100%; 
+            padding: 0.875rem; 
+            border: 2px solid #444 !important; 
+            border-radius: 4px; 
+            font-size: 16px !important; 
+            color: #fff; 
+            background-color: #0a0a0a !important; 
+            font-weight: 600;
+            font-family: 'Cinzel', serif;
+            outline: none;
+            appearance: none;
+            -webkit-appearance: none; 
+            display: block;
+            touch-action: manipulation;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+        }
+        .pc-input:focus { 
+            border-color: #dc2626 !important; 
+            background-color: #000 !important; 
+            box-shadow: 0 0 10px rgba(220, 38, 38, 0.3) !important; 
+        }
+
+        /* Add Arrow & Fix Overflow */
+        select.pc-input {
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23dc2626' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e") !important;
+            background-repeat: no-repeat !important;
+            background-position: right 1rem center !important;
+            background-size: 1.2em !important;
+            padding-right: 2.5rem !important; 
+            max-width: 100%;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        /* Layout Grid */
+        .pc-grid { 
+            display: grid; 
+            grid-template-columns: minmax(0, 1fr); 
+            gap: 1.5rem; 
+        }
+        @media (min-width: 600px) {
+            .pc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+
+        /* --- VISUAL STAGE --- */
+        .visual-stage {
+            background: #121212;
+            border: 2px solid #333;
+            border-radius: 4px;
+            overflow: hidden; 
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.8);
+            position: relative;
+        }
+        /* Metal texture overlay effect */
+        .visual-stage::before {
+            content: "";
+            position: absolute;
+            top:0; left:0; width:100%; height:100%;
+            background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 10px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .stage-content {
+            display: flex;
+            flex-direction: column;
+            padding: 24px;
+            padding-top: 90px;
+            gap: 24px;
+            position: relative;
+            z-index: 1;
+        }
+        @media (min-width: 640px) {
+            .stage-content { flex-direction: row; align-items: flex-end; justify-content: space-between; height: 400px; } 
+        }
+
+        /* LEFT: GOOSE */
+        .stage-left {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            text-align: center;
+            position: relative;
+        }
+        .goose-container {
+            width: 140px;
+            height: 140px;
+            position: relative;
+            margin-bottom: 16px;
+            transition: transform 0.1s ease-out; 
+        }
+        .egg-wrapper {
+            position: absolute;
+            bottom: 10px;
+            right: -10px;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            filter: drop-shadow(0 0 5px rgba(251, 191, 36, 0.5));
+        }
+        
+        /* CENTER: SLIDER */
+        .stage-center {
+            flex: 1.5;
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-width: 200px;
+        }
+
+        /* RIGHT: COINS */
+        .stage-right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            text-align: center;
+            position: relative;
+        }
+        .coin-stack-container {
+            width: 100px;
+            height: 160px;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+        .coin-stack {
+            width: 80px;
+            background: repeating-linear-gradient(
+                #b45309,
+                #b45309 10px,
+                #78350f 12px
+            );
+            border-radius: 2px;
+            border: 2px solid #451a03;
+            height: 0%; 
+            transition: height 0.3s ease;
+            box-shadow: inset 2px 2px 5px rgba(255,255,255,0.1), 0 0 10px rgba(251, 191, 36, 0.2);
+            position: relative;
+            z-index: 2;
+        }
+        .coin-stack::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: -2px;
+            right: -2px;
+            height: 12px;
+            background: #b45309;
+            border: 2px solid #451a03;
+            border-radius: 50%;
+            display: none; 
+        }
+        .coin-stack.has-coins::before { display: block; }
+
+        .coin-particle {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #f59e0b;
+            border: 2px solid #78350f;
+            border-radius: 50%;
+            top: 0;
+            left: 50%;
+            margin-left: -10px;
+            z-index: 1; 
+            animation: dropCoin 0.5s ease-in forwards;
+            pointer-events: none;
+        }
+        @keyframes dropCoin {
+            0% { transform: translateY(-20px) rotate(0deg); opacity: 0; }
+            20% { opacity: 1; }
+            100% { transform: translateY(140px) rotate(360deg); opacity: 0; }
+        }
+
+        /* REWARD ICONS */
+        .reward-icon {
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            font-size: 2.5rem;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: #171717;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 15px rgba(220, 38, 38, 0.5);
+            border: 2px solid #dc2626;
+            opacity: 0;
+            z-index: 10;
+            color: #fff;
+        }
+        .reward-icon.show { transform: translateX(-50%) scale(1); opacity: 1; }
+
+        /* DEVIL ICON SPECIAL STYLES (Make it Pop) */
+        #icon-tax {
+            top: -75px; /* Raised Higher */
+            width: 70px;
+            height: 70px;
+            font-size: 3rem;
+            background: linear-gradient(135deg, #7f1d1d, #000); /* Dark Red Gradient */
+            border-color: #ef4444;
+            box-shadow: 0 0 25px #ef4444; /* Stronger Glow */
+            z-index: 20; /* Ensure on top */
+        }
+        #icon-tax.show {
+            animation: devilPulse 2s infinite;
+        }
+        @keyframes devilPulse {
+            0% { transform: translateX(-50%) scale(1); box-shadow: 0 0 25px #ef4444; }
+            50% { transform: translateX(-50%) scale(1.1); box-shadow: 0 0 40px #ef4444; }
+            100% { transform: translateX(-50%) scale(1); box-shadow: 0 0 25px #ef4444; }
+        }
+
+        .val-display { font-size: 1.75rem; font-weight: 800; color: #fff; line-height: 1.1; text-shadow: 0 0 5px rgba(255,255,255,0.3); }
+        .val-label { font-size: 0.9375rem; text-transform: uppercase; color: #a3a3a3; font-weight: 700; margin-top: 6px; letter-spacing: 0.05em; }
+        .val-display.highlight { color: #facc15; text-shadow: 0 0 5px rgba(250, 204, 21, 0.5); }
+        
+        /* SPLIT BILL STYLES */
+        .split-bill { display: flex; flex-direction: column; align-items: center; width: 100%; }
+        .tax-free-part { font-size: 1.25rem; color: #22c55e; font-weight: 800; text-shadow: 0 0 5px rgba(34, 197, 94, 0.3); }
+        .taxable-part { font-size: 1rem; color: #ef4444; font-weight: 700; margin-top: 4px; }
+        .tax-deduction { font-size: 0.9375rem; color: #ef4444; margin-top: 6px; border-top: 1px dashed #7f1d1d; padding-top: 4px; width: 100%; text-align: center; }
+        .net-pocket { font-size: 1.2rem; color: #fff; font-weight: 800; margin-top: 6px; border-top: 2px solid #fff; padding-top: 6px; width: 100%; text-align: center; }
+        
+        /* SLIDER CUSTOMIZATION - FLAME STYLE */
+        input[type=range] {
+            -webkit-appearance: none; appearance: none; width: 100%; background: transparent; cursor: pointer; height: 60px; margin: 0; display: block;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%; 
+            height: 24px; 
+            background: #262626; /* Dark wood */
+            background-image: linear-gradient(90deg, transparent 50%, #444 50%);
+            background-size: 20px 100%; /* Frets */
+            border-radius: 4px; 
+            border: 1px solid #555;
+            position: relative;
+        }
+        /* THE FLAME THUMB */
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none; 
+            height: 60px; 
+            width: 40px; 
+            background: transparent;
+            border: none;
+            border-radius: 0;
+            margin-top: -25px; /* Position grip relative to track */
+            
+            /* Flame SVG */
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 150'%3e%3cdefs%3e%3cradialGradient id='flameGrad' cx='50%25' cy='80%25' r='60%25'%3e%3cstop offset='0%25' stop-color='%23facc15'/%3e%3cstop offset='40%25' stop-color='%23f97316'/%3e%3cstop offset='100%25' stop-color='%23dc2626'/%3e%3c/radialGradient%3e%3c/defs%3e%3cpath d='M50 145 Q20 140 15 100 Q10 60 50 10 Q90 60 85 100 Q80 140 50 145 Z' fill='url(%23flameGrad)' stroke='%237f1d1d' stroke-width='2'/%3e%3c/svg%3e");
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            
+            filter: drop-shadow(0 0 5px rgba(220, 38, 38, 0.8));
+            transition: transform 0.1s; 
+            position: relative; 
+            z-index: 2;
+            box-shadow: none;
+        }
+        input[type=range]::-webkit-slider-thumb:active { 
+            transform: scale(1.1) translateY(2px);
+            filter: drop-shadow(0 0 15px rgba(251, 191, 36, 1)); 
+        }
+        
+        .slider-wrapper { position: relative; }
+        
+        /* SPEED LIMIT MARKER */
+        .limit-marker {
+            position: absolute;
+            top: 13px;
+            width: 4px;
+            height: 26px;
+            background-color: #ef4444;
+            z-index: 1;
+            pointer-events: none;
+            display: none;
+            box-shadow: 0 0 5px #ef4444;
+        }
+        .limit-marker::before {
+            content: "LIMIT";
+            position: absolute;
+            top: -24px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.75rem; 
+            color: #ef4444;
+            font-weight: 800;
+            text-shadow: 0 0 2px #000;
+        }
+
+        .percent-bubble {
+            position: absolute;
+            top: -45px;
+            left: 0;
+            transform: translateX(-50%);
+            background: #dc2626;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            opacity: 0;
+            transition: opacity 0.2s, left 0.1s;
+            pointer-events: none;
+            font-family: 'Cinzel', serif;
+            border: 1px solid #991b1b;
+        }
+        .slider-wrapper:hover .percent-bubble { opacity: 1; }
+
+        /* LABELS ABOVE SLIDER */
+        .slider-labels {
+            display: flex; justify-content: space-between; margin-bottom: 12px; 
+            font-size: 0.875rem; 
+            font-weight: 700; color: #a3a3a3; text-transform: uppercase;
+        }
+
+        /* TAX BUCKET (Bottom Panel) */
+        .bucket-panel {
+            background: #171717;
+            border-top: 2px solid #333;
+            padding: 24px;
+        }
+        .bucket-header {
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 12px;
+        }
+        .bucket-container {
+            width: 100%; height: 28px; background: #000; border-radius: 4px; position: relative; overflow: hidden;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+            border: 1px solid #444;
+        }
+        .bucket-liquid {
+            height: 100%; width: 0%;
+            background: linear-gradient(90deg, #1d4ed8, #3b82f6); 
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border-right: 1px solid rgba(255,255,255,0.5);
+        }
+        .bucket-liquid.gold-mode {
+            background: linear-gradient(90deg, #b45309, #facc15); /* Molten Gold */
+            box-shadow: 0 0 10px #facc15;
+        }
+        .bucket-liquid.danger-mode {
+            background: linear-gradient(90deg, #7f1d1d, #ef4444); /* Blood */
+            animation: pulse-red 1s infinite;
+        }
+        @keyframes pulse-red {
+            0% { opacity: 1; box-shadow: 0 0 5px #ef4444; }
+            50% { opacity: 0.8; box-shadow: 0 0 20px #ef4444; }
+            100% { opacity: 1; box-shadow: 0 0 5px #ef4444; }
+        }
+        
+        .boost-row {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-top: 20px; background: #262626; padding: 16px;
+            border: 1px solid #444; border-radius: 4px;
+        }
+        
+        /* HOVER TOOLTIPS */
+        .tooltip-container { position: relative; display: inline-block; vertical-align: middle; }
+        .tooltip-icon {
+            background: #444; color: #fff; width: 24px; height: 24px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800;
+            cursor: help; margin-left: 8px; flex-shrink: 0; border: 1px solid #666;
+        }
+        .tooltip-icon:hover { background: #dc2626; border-color: #ef4444; }
+        
+        .tooltip-popup {
+            visibility: hidden; opacity: 0; width: 280px; background: #000; color: #eee;
+            text-align: left; border-radius: 4px; padding: 12px; position: absolute; z-index: 100;
+            bottom: 145%; left: 50%; margin-left: -140px;
+            box-shadow: 0 0 15px rgba(220, 38, 38, 0.4);
+            border: 1px solid #dc2626;
+            transition: opacity 0.2s; font-size: 0.9375rem; line-height: 1.5; font-weight: 400;
+            text-transform: none;
+        }
+        .tooltip-popup::after {
+            content: ""; position: absolute; top: 100%; left: 50%; margin-left: -6px;
+            border-width: 6px; border-style: solid; border-color: #dc2626 transparent transparent transparent;
+        }
+        .tooltip-container:hover .tooltip-popup { visibility: visible; opacity: 1; }
+
+        /* Switch Toggle */
+        .switch { position: relative; display: inline-block; width: 50px; height: 28px; flex-shrink: 0; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider-switch { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #444; transition: .4s; border-radius: 34px; border: 1px solid #666; }
+        .slider-switch:before { position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px; background-color: #aaa; transition: .4s; border-radius: 50%; }
+        input:checked + .slider-switch { background-color: #b45309; border-color: #facc15; }
+        input:checked + .slider-switch:before { transform: translateX(22px); background-color: #fff; }
+
+        /* Disclaimer Footer */
+        .pc-footer {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #333;
+            text-align: center;
+            font-size: 0.875rem;
+            color: #666;
+        }
+
+    </style>
+</head>
+<body>
+
+<div id="pension-calc-wrapper">
+    
+    <h2>The Pension of the Beast</h2>
+    
+    <div class="definition-text">
+        <strong>Run to the Hills (with Cash)?</strong><br>
+        Think of your pension like <strong>Eddie the Goose</strong>. You can chop off a wing to get a pile of gold today (Lump Sum), but the goose will lay smaller eggs (Income) for eternity.
+    </div>
+
+    <!-- SCHEME & SALARY SELECTOR -->
+    <div class="pc-card" style="padding: 1.5rem;">
+        <div class="pc-grid">
+            <div class="pc-group">
+                <label class="pc-label" for="scheme">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    Scheme
+                </label>
+                <!-- Default switched to LGPS -->
+                <select id="scheme" class="pc-input" onchange="updateValues()" aria-label="Select Pension Scheme">
+                    <option value="lgps" selected>LGPS - Rate 12:1</option>
+                    <option value="police">Police (Legacy 1987) - Rate 22:1</option>
+                    <option value="fire">Firefighters - Rate 19:1</option>
+                </select>
+            </div>
+            <div class="pc-group">
+                <label class="pc-label" for="base-pension">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
+                    Annual Pension
+                </label>
+                <input type="number" id="base-pension" class="pc-input" value="20000" oninput="updateValues()" aria-label="Enter Annual Pension Amount">
+            </div>
+        </div>
+    </div>
+
+    <!-- THE VISUAL STAGE -->
+    <div class="visual-stage">
+        
+        <!-- UPPER STAGE: Visuals -->
+        <div class="stage-content">
+            
+            <!-- LEFT: GOOSE -->
+            <div class="stage-left">
+                <div class="goose-container" id="goose-anim-target" aria-hidden="true">
+                    <!-- Eddie the Goose SVG -->
+                    <svg viewBox="0 0 100 100" width="100%" height="100%">
+                        <!-- Nest -->
+                        <path d="M10,85 Q50,100 90,85" fill="none" stroke="#444" stroke-width="4" />
+                        <!-- Goose Body - Dark Grey -->
+                        <path d="M30,80 Q10,50 40,40 Q35,20 50,20 Q70,20 65,40 Q90,50 70,80 Z" fill="#333" stroke="#000" stroke-width="2"/>
+                        <!-- Wing -->
+                        <path d="M40,55 Q55,50 60,70" fill="none" stroke="#555" stroke-width="2"/>
+                        <!-- Beak - Orange/Red -->
+                        <path d="M50,25 L65,28 L50,33 Z" fill="#d97706" stroke="#000" stroke-width="1"/>
+                        <!-- Eye - Glowing Red -->
+                        <circle cx="45" cy="28" r="2.5" fill="#dc2626" />
+                        <circle cx="45" cy="28" r="1" fill="#fff" />
+                    </svg>
+                    
+                    <!-- Dynamic Golden Egg -->
+                    <div class="egg-wrapper" id="egg-visual">
+                        <svg viewBox="0 0 40 50" width="40" height="50">
+                            <ellipse cx="20" cy="25" rx="18" ry="24" fill="#fbbf24" stroke="#78350f" stroke-width="2" />
+                            <!-- Shine -->
+                            <path d="M15,15 Q25,15 28,30" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="3" />
+                        </svg>
+                    </div>
+                </div>
+                <div>
+                    <div class="val-display" id="val-pension">£20,000</div>
+                    <div class="val-label">Yearly Income</div>
+                </div>
+            </div>
+
+            <!-- CENTER: SLIDER -->
+            <div class="stage-center">
+                <div class="slider-labels">
+                    <span>Max Income</span>
+                    <span id="percent-label" style="color:#dc2626">0% Taken</span>
+                    <span>Max Cash</span>
+                </div>
+                
+                <div class="slider-wrapper">
+                    <input type="range" min="0" max="25" value="0" id="slider" oninput="updateValues()" aria-label="Lump Sum Percentage Slider">
+                    <!-- Speed Limit Marker -->
+                    <div class="limit-marker" id="limit-marker"></div>
+                </div>
+
+                <p id="rate-display" style="text-align: center; margin-top: 10px; font-size: 1rem; color: #d4d4d4; font-weight: 600;">
+                    Rate: £12 cash per £1 income
+                </p>
+            </div>
+
+            <!-- RIGHT: COINS -->
+            <div class="stage-right">
+                <div class="coin-stack-container" id="stack-container" aria-hidden="true">
+                    <!-- Reward Icons: Guitar, Dungeon, Plane -->
+                    <div class="reward-icon" id="icon-car">🎸</div>
+                    <div class="reward-icon" id="icon-house">🏰</div>
+                    <div class="reward-icon" id="icon-world">✈️</div>
+                    <!-- Taxman Demon -->
+                    <div class="reward-icon" id="icon-tax">👹</div>
+
+                    <div class="coin-stack" id="coin-visual"></div>
+                </div>
+                <div>
+                    <div class="val-display highlight" id="val-cash">£0</div>
+                    <div class="val-label">Lump Sum</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- LOWER PANEL: TAX BUCKET -->
+        <div class="bucket-panel">
+            <div class="bucket-header">
+                <!-- UPDATED TOOLTIP STRUCTURE -->
+                <div style="display: flex; align-items: center;">
+                    Hallowed Be Thy Pot (LSA)
+                    <div class="tooltip-container">
+                        <div class="tooltip-icon" tabindex="0" aria-label="Information about Lump Sum Allowance">?</div>
+                        <div class="tooltip-popup" style="left: 0; margin-left: 0; transform: none;"> <!-- Force alignment -->
+                            <strong>Lump Sum Allowance</strong><br>
+                            You can take up to £268,275 tax-free in your lifetime. This bucket shows how much space this payout takes up. If it overflows, the Beast takes the excess (Tax).
+                        </div>
+                    </div>
+                </div>
+                <span id="tank-val">0% Full</span>
+            </div>
+            
+            <div class="bucket-container">
+                <div class="bucket-liquid" id="bucket-bar"></div>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:0.875rem; color:#888; margin-top:6px;">
+                <span>Empty</span>
+                <span>Max: £268,275 (LSA)</span>
+            </div>
+
+            <!-- BOOST ROW -->
+            <div class="boost-row">
+                <div style="display:flex; flex-direction:column;">
+                    <div style="display: flex; align-items: center; font-weight:700; color:#fff; font-size:1rem;">
+                        The Number of the Certificate (TTFAC)
+                        <div class="tooltip-container">
+                            <div class="tooltip-icon" tabindex="0" aria-label="Information about Transitional Certificate">?</div>
+                            <div class="tooltip-popup" style="right: 0; left: auto; margin-left: 0; transform: none;"> 
+                                <strong>Transitional Certificate</strong><br>
+                                If you took pension before 2024, you might have a certificate that proves you used less allowance than assumed. Activating this 'Refreshes' your bucket space.
+                            </div>
+                        </div>
+                    </div>
+                    <span style="font-size:0.875rem; color:#888;">Do you have a certificate?</span>
+                </div>
+                <label class="switch" aria-label="Toggle Transitional Certificate">
+                    <input type="checkbox" id="ttfac-toggle" onchange="updateValues()">
+                    <span class="slider-switch"></span>
+                </label>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- DISCLAIMER -->
+    <div class="pc-footer">
+        <strong>EDUCATIONAL PURPOSES ONLY.</strong> This tool is a visual aid and does not constitute financial advice. Not affiliated with Iron Maiden.
+    </div>
+
+</div>
+
+<script>
+    // --- AUDIO SYSTEM REMOVED PER USER REQUEST ---
+
+    // --- GAME LOGIC ---
+    document.addEventListener('DOMContentLoaded', function() {
+        updateValues();
+    });
+
+    // Track previous value for direction detection
+    let lastSliderVal = 0;
+
+    function updateValues() {
+        const scheme = document.getElementById('scheme').value;
+        const slider = document.getElementById('slider');
+        const pensionEl = document.getElementById('val-pension');
+        const cashEl = document.getElementById('val-cash');
+        const rateDisplay = document.getElementById('rate-display');
+        const pensionInput = document.getElementById('base-pension');
+        const percentLabel = document.getElementById('percent-label');
+        const marker = document.getElementById('limit-marker');
+        
+        // Visual Elements
+        const eggVisual = document.getElementById('egg-visual');
+        const coinVisual = document.getElementById('coin-visual');
+        const gooseContainer = document.getElementById('goose-anim-target');
+        const stackContainer = document.getElementById('stack-container');
+        
+        const bucketBar = document.getElementById('bucket-bar');
+        const tankVal = document.getElementById('tank-val');
+        
+        // Icons
+        const iconCar = document.getElementById('icon-car');
+        const iconHouse = document.getElementById('icon-house');
+        const iconWorld = document.getElementById('icon-world');
+        const iconTax = document.getElementById('icon-tax');
+
+        // Toggle
+        const isCertified = document.getElementById('ttfac-toggle').checked;
+        
+        // --- LOGIC ---
+        let factor = 12;
+        if (scheme === 'police') factor = 22;
+        if (scheme === 'fire') factor = 19;
+        
+        rateDisplay.innerText = `Rate: £${factor} cash per £1 income`;
+
+        // Get pension from input, default to 0 if invalid
+        let basePension = parseFloat(pensionInput.value);
+        if (isNaN(basePension) || basePension < 0) basePension = 0;
+
+        const percentTaken = parseFloat(slider.value); // 0 to 25
+        const commuted = basePension * (percentTaken / 100);
+        const newPension = basePension - commuted;
+        let cash = commuted * factor;
+
+        // Limit Logic (LSA)
+        const LSA_LIMIT = 268275;
+
+        // Position Visual Marker
+        if (basePension > 0) {
+            let limitPercent = (LSA_LIMIT * 100) / (basePension * factor);
+            let positionLeft = (limitPercent / 25) * 100;
+            
+            if (positionLeft > 0 && positionLeft < 100) {
+                marker.style.left = positionLeft + "%";
+                marker.style.display = "block";
+            } else {
+                marker.style.display = "none"; 
+            }
+        }
+
+        // Update Percentage Label
+        percentLabel.innerText = `${percentTaken}% Taken`;
+        
+        // --- FORMATTING ---
+        const fmt = new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP', maximumFractionDigits: 0 });
+        pensionEl.innerText = fmt.format(newPension);
+        
+        // Split Bill & Tax Logic (Re-implemented)
+        if (cash > LSA_LIMIT) {
+            let excess = cash - LSA_LIMIT;
+            let tax = excess * 0.40; // 40% Tax Assumption
+            let netCash = cash - tax;
+            
+            cashEl.innerHTML = `
+                <div class="split-bill">
+                    <span class="tax-free-part">${fmt.format(LSA_LIMIT)} (Free)</span>
+                    <div class="taxable-part">
+                        <span>+ ${fmt.format(excess)}</span>
+                        <span style="font-size:0.7em; color:#a3a3a3; font-weight:400; margin-left:4px;">(Excess)</span>
+                    </div>
+                    <div class="tax-deduction">Tax (40%): -${fmt.format(tax)}</div>
+                    <div class="net-pocket">Pocket: ${fmt.format(netCash)}</div>
+                </div>
+            `;
+            // Trigger Tax Icon
+            iconTax.classList.add('show');
+            iconCar.classList.remove('show');
+            iconHouse.classList.remove('show');
+            iconWorld.classList.remove('show');
+        } else {
+            cashEl.innerText = fmt.format(cash);
+            iconTax.classList.remove('show');
+            
+            // Standard Icons
+            iconCar.classList.remove('show');
+            iconHouse.classList.remove('show');
+            iconWorld.classList.remove('show');
+
+            if (cash > 10000 && cash < 50000) iconCar.classList.add('show');
+            else if (cash >= 50000 && cash < 100000) iconHouse.classList.add('show');
+            else if (cash >= 100000) iconWorld.classList.add('show');
+        }
+        
+        // --- ANIMATIONS ---
+        
+        // 1. Egg Shrink
+        const scaleFactor = 1 - (percentTaken / 60); 
+        eggVisual.style.transform = `scale(${scaleFactor})`;
+
+        // 2. Coin Grow
+        let coinHeight = percentTaken * 4; 
+        coinVisual.style.height = coinHeight + "%";
+        if(coinHeight > 0) coinVisual.classList.add('has-coins');
+        else coinVisual.classList.remove('has-coins');
+
+        // 3. Bobbing Goose Logic
+        const bounce = Math.sin(percentTaken * 0.5) * 6; // 6px amplitude
+        gooseContainer.style.transform = `translateY(${bounce}px)`;
+
+        // 4. Dropping Coins Logic (Visual Only)
+        if (percentTaken > lastSliderVal) {
+            spawnCoin();
+        }
+        lastSliderVal = percentTaken;
+
+        // 5. Tax Bucket Logic
+        let percentageUsed = (cash / LSA_LIMIT) * 100;
+        let visualPercentage = percentageUsed; 
+
+        if (isCertified) {
+            visualPercentage = visualPercentage * 0.7; 
+            bucketBar.classList.add('gold-mode');
+        } else {
+            bucketBar.classList.remove('gold-mode');
+        }
+        
+        // Overflow Logic (Red Warning)
+        if (visualPercentage > 100) {
+            visualPercentage = 100;
+            bucketBar.classList.add('danger-mode');
+            tankVal.style.color = '#dc2626';
+            tankVal.innerText = "OVERFLOW!";
+        } else {
+            bucketBar.classList.remove('danger-mode');
+            tankVal.style.color = 'inherit';
+            if(cash === 0) {
+                 tankVal.innerText = "0% Full";
+            } else {
+                tankVal.innerText = (percentageUsed).toFixed(1) + "% Full";
+            }
+        }
+        
+        bucketBar.style.width = visualPercentage + "%";
+    }
+
+    function spawnCoin() {
+        const stack = document.getElementById('stack-container');
+        const coin = document.createElement('div');
+        coin.className = 'coin-particle';
+        
+        // Randomize horizontal start position slightly for realism
+        const randomOffset = (Math.random() * 10) - 5; // -5px to 5px
+        coin.style.marginLeft = `${-8 + randomOffset}px`;
+        
+        stack.appendChild(coin);
+
+        setTimeout(() => {
+            if(coin.parentNode) coin.parentNode.removeChild(coin);
+        }, 500);
+    }
+</script>
+
+</body>
+</html>
