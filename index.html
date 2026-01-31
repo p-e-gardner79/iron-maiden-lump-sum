@@ -12,12 +12,12 @@
     <style>
         /* --- HEAVY METAL STYLES --- */
         body {
-            background-color: #0f0f0f; /* Fallback if not embedded */
+            background-color: #0f0f0f; 
         }
 
         #pension-calc-wrapper {
             font-family: 'Cinzel', serif;
-            color: #e5e5e5;
+            color: #d4d4d4;
             background-color: #0f0f0f;
             background-image: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #000000 100%);
             padding: 20px 0;
@@ -52,7 +52,7 @@
 
         .definition-text {
             font-size: 1rem;
-            color: #d4d4d4;
+            color: #a3a3a3;
             margin-bottom: 2rem;
             background: #171717;
             padding: 1.25rem;
@@ -106,6 +106,7 @@
             display: block;
             touch-action: manipulation;
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+            height: 50px;
         }
         .pc-input:focus { 
             border-color: #dc2626 !important; 
@@ -126,6 +127,53 @@
             overflow: hidden;
         }
 
+        /* --- THEME OVERRIDES FOR SELECT2 --- */
+        #pension-calc-wrapper .select2-container {
+            width: 100% !important;
+            max-width: 100% !important;
+            display: block !important;
+        }
+        
+        #pension-calc-wrapper .select2-container .select2-selection--single {
+            height: 50px !important; 
+            padding: 0 !important; 
+            border: 2px solid #444 !important; 
+            border-radius: 4px !important;
+            background-color: #0a0a0a !important;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.5) !important;
+            display: flex !important;
+            align-items: center !important;
+        }
+
+        #pension-calc-wrapper .select2-container .select2-selection--single .select2-selection__rendered {
+            padding-left: 0.875rem !important;
+            padding-right: 30px !important;
+            color: #fff !important;
+            font-size: 16px !important;
+            font-weight: 600 !important;
+            font-family: 'Cinzel', serif !important;
+            line-height: normal !important;
+        }
+
+        #pension-calc-wrapper .select2-container .select2-selection--single .select2-selection__arrow {
+            height: 100% !important;
+            top: 0 !important;
+            right: 10px !important;
+            width: 20px !important;
+            position: absolute !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+        
+        #pension-calc-wrapper .select2-container .select2-selection--single .select2-selection__arrow b {
+            border-color: #dc2626 transparent transparent transparent !important;
+            border-style: solid !important;
+            border-width: 6px 5px 0 5px !important;
+            margin-top: 0 !important;
+            position: static !important; 
+        }
+
         /* Layout Grid */
         .pc-grid { 
             display: grid; 
@@ -136,16 +184,112 @@
             .pc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         }
 
+        /* GOAL SETTING STYLES (METAL) */
+        .goals-container {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px dashed #444;
+        }
+        
+        /* Custom Input Row */
+        .custom-goal-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        .custom-goal-input {
+            flex: 1;
+            min-width: 120px;
+            padding: 8px 12px;
+            border: 1px solid #444;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            background: #0a0a0a;
+            color: #fff;
+            font-family: 'Cinzel', serif;
+        }
+        .add-goal-btn {
+            background-color: #7f1d1d;
+            color: #fbbf24;
+            border: 1px solid #dc2626;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-family: 'Cinzel', serif;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+        }
+        .add-goal-btn:hover { background-color: #dc2626; color: #fff; box-shadow: 0 0 10px #dc2626; }
+
+        /* Emoji Trigger */
+        .emoji-trigger {
+            background: #262626;
+            border: 1px solid #444;
+            border-radius: 4px;
+            padding: 0 10px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .goals-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .goal-tag {
+            background: #262626;
+            border: 1px solid #444;
+            border-radius: 2px;
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #d4d4d4;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'Cinzel', serif;
+        }
+        .goal-tag:hover { border-color: #dc2626; background: #000; color: #fff; }
+        .goal-tag.active {
+            background: #7f1d1d;
+            color: #fbbf24;
+            border-color: #dc2626;
+            box-shadow: 0 0 8px rgba(220, 38, 38, 0.4);
+        }
+        .goal-feedback {
+            margin-top: 12px;
+            padding: 10px;
+            background: #000;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            text-align: center;
+            border: 1px solid #333;
+        }
+        .feedback-label { font-weight: 700; color: #fbbf24; display: block; margin-bottom: 4px; text-transform: uppercase; }
+        .feedback-val { font-family: monospace; font-size: 1.1em; color: #d4d4d4; }
+        .feedback-surplus { color: #22c55e; text-shadow: 0 0 5px rgba(34, 197, 94, 0.3); }
+        .feedback-shortfall { color: #dc2626; text-shadow: 0 0 5px rgba(220, 38, 38, 0.3); }
+
         /* --- VISUAL STAGE --- */
         .visual-stage {
             background: #121212;
             border: 2px solid #333;
             border-radius: 4px;
-            overflow: hidden; 
+            /* OVERFLOW VISIBLE FIX */
+            overflow: visible; 
             box-shadow: inset 0 0 50px rgba(0,0,0,0.8);
             position: relative;
+            z-index: 5;
         }
-        /* Metal texture overlay effect */
+        /* Metal texture overlay */
         .visual-stage::before {
             content: "";
             position: absolute;
@@ -165,7 +309,14 @@
             z-index: 1;
         }
         @media (min-width: 640px) {
-            .stage-content { flex-direction: row; align-items: flex-end; justify-content: space-between; height: 400px; } 
+            /* DESKTOP: Larger headroom for side-by-side layout */
+            .stage-content { 
+                flex-direction: row; 
+                align-items: flex-end; 
+                justify-content: space-between; 
+                height: 450px; 
+                padding-top: 130px;
+            } 
         }
 
         /* LEFT: GOOSE */
@@ -203,7 +354,7 @@
             min-width: 200px;
         }
 
-        /* RIGHT: COINS */
+        /* RIGHT: COINS & TARGET */
         .stage-right {
             flex: 1;
             display: flex;
@@ -213,6 +364,14 @@
             text-align: center;
             position: relative;
         }
+        
+        /* Mobile Margin Fix for Icon Overlap */
+        @media (max-width: 639px) {
+            .stage-right {
+                margin-top: 60px; /* Air gap for icon on mobile stack */
+            }
+        }
+
         .coin-stack-container {
             width: 100px;
             height: 160px;
@@ -222,6 +381,55 @@
             justify-content: center;
             margin-bottom: 16px;
         }
+        
+        /* ITEMIZED GOAL STACK (Shadow - Stone Slab style) */
+        .goal-stack-wrapper {
+            position: absolute;
+            bottom: 0;
+            width: 150px; 
+            height: 100%;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column-reverse; 
+            justify-content: flex-start;
+            align-items: center;
+            z-index: 0;
+        }
+        
+        .goal-item-block {
+            width: 90px;
+            background: #333;
+            border: 1px solid #555;
+            position: relative;
+            opacity: 0.8;
+            transition: height 0.3s ease;
+            box-shadow: inset 0 0 10px #000;
+        }
+        .goal-item-block:first-child { border-radius: 0 0 4px 4px; }
+        .goal-item-block:last-child { border-radius: 4px 4px 0 0; }
+        
+        /* Label to the right */
+        .goal-item-label {
+            position: absolute;
+            right: -5px;
+            top: 50%;
+            transform: translate(100%, -50%);
+            background: #000;
+            border: 1px solid #555;
+            color: #fbbf24;
+            font-size: 0.65rem;
+            padding: 2px 4px;
+            border-radius: 2px;
+            white-space: nowrap;
+            font-family: 'Cinzel', serif;
+        }
+
+        /* Warning Overlays on Blocks */
+        .goal-item-block.shortfall {
+            background: #450a0a; /* Dark Red tint */
+            border-left: 2px solid #dc2626;
+        }
+
         .coin-stack {
             width: 80px;
             background: repeating-linear-gradient(
@@ -235,7 +443,7 @@
             transition: height 0.3s ease;
             box-shadow: inset 2px 2px 5px rgba(255,255,255,0.1), 0 0 10px rgba(251, 191, 36, 0.2);
             position: relative;
-            z-index: 2;
+            z-index: 2; /* In front of shadow */
         }
         .coin-stack::before {
             content: '';
@@ -261,7 +469,7 @@
             top: 0;
             left: 50%;
             margin-left: -10px;
-            z-index: 1; 
+            z-index: 5; 
             animation: dropCoin 0.5s ease-in forwards;
             pointer-events: none;
         }
@@ -271,7 +479,6 @@
             100% { transform: translateY(140px) rotate(360deg); opacity: 0; }
         }
 
-        /* REWARD ICONS */
         .reward-icon {
             position: absolute;
             top: -50px;
@@ -417,6 +624,22 @@
             font-size: 0.875rem; 
             font-weight: 700; color: #a3a3a3; text-transform: uppercase;
         }
+        
+        /* INFLATION INFO BOX */
+        .inflation-warning {
+            margin-top: 20px;
+            background-color: #1a1a1a;
+            border-left: 4px solid #f97316;
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: #fed7aa;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            border: 1px solid #444;
+        }
+        .inflation-icon { font-size: 1.2rem; }
 
         /* TAX BUCKET (Bottom Panel) */
         .bucket-panel {
@@ -432,12 +655,17 @@
             width: 100%; height: 28px; background: #000; border-radius: 4px; position: relative; overflow: hidden;
             box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
             border: 1px solid #444;
+            display: flex; /* Flex to stack block and liquid */
         }
+        
+        /* No Assumption Block here, just clean liquid */
         .bucket-liquid {
             height: 100%; width: 0%;
             background: linear-gradient(90deg, #1d4ed8, #3b82f6); 
             transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             border-right: 1px solid rgba(255,255,255,0.5);
+            position: relative;
+            z-index: 2;
         }
         .bucket-liquid.gold-mode {
             background: linear-gradient(90deg, #b45309, #facc15); /* Molten Gold */
@@ -483,6 +711,35 @@
         }
         .tooltip-container:hover .tooltip-popup { visibility: visible; opacity: 1; }
 
+        /* MOBILE TOOLTIP OVERRIDES */
+        @media (max-width: 600px) {
+            .tooltip-popup {
+                width: max-content; 
+                max-width: 80vw; /* Cap width to screen size */
+                white-space: normal; /* Allow wrap */
+            }
+            
+            .tooltip-left-align .tooltip-popup {
+                left: 0;
+                margin-left: 0;
+                transform: none;
+            }
+            .tooltip-left-align .tooltip-popup::after {
+                left: 20px; 
+            }
+
+            .tooltip-right-align .tooltip-popup {
+                left: auto;
+                right: 0;
+                margin-left: 0;
+                transform: none;
+            }
+            .tooltip-right-align .tooltip-popup::after {
+                left: auto;
+                right: 20px; 
+            }
+        }
+
         /* Switch Toggle */
         .switch { position: relative; display: inline-block; width: 50px; height: 28px; flex-shrink: 0; }
         .switch input { opacity: 0; width: 0; height: 0; }
@@ -511,7 +768,7 @@
     
     <div class="definition-text">
         <strong>Run to the Hills (with Cash)?</strong><br>
-        Think of your pension like <strong>Eddie the Goose</strong>. You can chop off a wing to get a pile of gold today (Lump Sum), but the goose will lay smaller eggs (Income) for eternity.
+        Think of thy pension like <strong>Eddie the Goose</strong>. Thou canst chop off a wing to claim a pile of gold today (Lump Sum), but the goose shall lay smaller eggs (Income) for eternity.
     </div>
 
     <!-- SCHEME & SALARY SELECTOR -->
@@ -532,9 +789,42 @@
             <div class="pc-group">
                 <label class="pc-label" for="base-pension">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
-                    Annual Pension
+                    Yearly Tribute
                 </label>
-                <input type="number" id="base-pension" class="pc-input" value="20000" oninput="updateValues()" aria-label="Enter Annual Pension Amount">
+                <!-- Changed to text for formatting -->
+                <input type="text" id="base-pension" class="pc-input" value="£20,000" oninput="updateValues()" aria-label="Enter Annual Pension Amount">
+            </div>
+        </div>
+
+        <!-- NEW: GOAL SETTING (INPUTS ONLY) -->
+        <div class="goals-container">
+            <label class="pc-label">Relics & Burdens</label>
+            <div class="custom-goal-row">
+                <div class="emoji-trigger" id="emoji-trigger">💀</div>
+                <input type="text" id="custom-goal-name" class="custom-goal-input" placeholder="Relic Name (e.g. Axe)">
+                <input type="number" id="custom-goal-val" class="custom-goal-input" placeholder="Gold (£)">
+                <button class="add-goal-btn" onclick="addCustomGoal()">+ Add</button>
+            </div>
+            
+            <div class="goals-list" id="goals-list-area">
+                <!-- Preset Metal Tags -->
+                <div class="goal-tag" data-value="2000" onclick="toggleGoal(this)">
+                    <span>🎸</span> New Axe (£2k)
+                </div>
+                <div class="goal-tag" data-value="10000" onclick="toggleGoal(this)">
+                    <span>🔥</span> Pyro (£10k)
+                </div>
+                <div class="goal-tag" data-value="25000" onclick="toggleGoal(this)">
+                    <span>🏰</span> Dungeon (£25k)
+                </div>
+                <div class="goal-tag" data-value="50000" onclick="toggleGoal(this)">
+                    <span>🚌</span> Tour Bus (£50k)
+                </div>
+            </div>
+            
+            <div class="goal-feedback" id="goal-feedback">
+                <span class="feedback-label">No Relics Chosen</span>
+                <span class="feedback-val">Add items above to test thy fortune.</span>
             </div>
         </div>
     </div>
@@ -574,7 +864,7 @@
                 </div>
                 <div>
                     <div class="val-display" id="val-pension">£20,000</div>
-                    <div class="val-label">Yearly Income</div>
+                    <div class="val-label">Yearly Tribute</div>
                 </div>
             </div>
 
@@ -595,17 +885,26 @@
                 <p id="rate-display" style="text-align: center; margin-top: 10px; font-size: 1rem; color: #d4d4d4; font-weight: 600;">
                     Rate: £12 cash per £1 income
                 </p>
+                
+                <!-- NEW: INFLATION WARNING -->
+                <div class="inflation-warning">
+                    <span class="inflation-icon">📉</span>
+                    <span><strong>The Prophecy of Inflation:</strong> Verily, thy pension income shall rise with the tides of time (CPI), but the Lump Sum is frozen in stone and shall wither.</span>
+                </div>
             </div>
 
-            <!-- RIGHT: COINS -->
+            <!-- RIGHT: COINS & TARGET -->
             <div class="stage-right">
                 <div class="coin-stack-container" id="stack-container" aria-hidden="true">
-                    <!-- Reward Icons: Guitar, Dungeon, Plane -->
-                    <div class="reward-icon" id="icon-car">🎸</div>
-                    <div class="reward-icon" id="icon-house">🏰</div>
-                    <div class="reward-icon" id="icon-world">✈️</div>
-                    <!-- Taxman Demon -->
-                    <div class="reward-icon" id="icon-tax">👹</div>
+                    
+                    <!-- ITEMIZED GOAL STACK -->
+                    <div class="goal-stack-wrapper" id="goal-stack"></div>
+
+                    <!-- DYNAMIC REWARD ICON -->
+                    <div class="reward-icon" id="dynamic-reward-icon"></div>
+                    
+                    <!-- Taxman Icon (Fixed) -->
+                    <div class="reward-icon" id="icon-tax" style="border-color: #ef4444; color: #ef4444;">👹</div>
 
                     <div class="coin-stack" id="coin-visual"></div>
                 </div>
@@ -622,12 +921,12 @@
             <div class="bucket-header">
                 <!-- UPDATED TOOLTIP STRUCTURE -->
                 <div style="display: flex; align-items: center;">
-                    Hallowed Be Thy Pot (LSA)
-                    <div class="tooltip-container">
+                    The Chalice of Tax Freedom (LSA)
+                    <div class="tooltip-container tooltip-left-align">
                         <div class="tooltip-icon" tabindex="0" aria-label="Information about Lump Sum Allowance">?</div>
-                        <div class="tooltip-popup" style="left: 0; margin-left: 0; transform: none;"> <!-- Force alignment -->
+                        <div class="tooltip-popup">
                             <strong>Lump Sum Allowance</strong><br>
-                            You can take up to £268,275 tax-free in your lifetime. This bucket shows how much space this payout takes up. If it overflows, the Beast takes the excess (Tax).
+                            Thou canst take up to £268,275 tax-free in thy lifetime. This chalice shows how much space thy payout taketh. If it overflows, the Beast takes the excess (Tax).
                         </div>
                     </div>
                 </div>
@@ -635,6 +934,7 @@
             </div>
             
             <div class="bucket-container">
+                <!-- No Assumption Block in Metal Version either, kept clean -->
                 <div class="bucket-liquid" id="bucket-bar"></div>
             </div>
             <div style="display:flex; justify-content:space-between; font-size:0.875rem; color:#888; margin-top:6px;">
@@ -647,15 +947,15 @@
                 <div style="display:flex; flex-direction:column;">
                     <div style="display: flex; align-items: center; font-weight:700; color:#fff; font-size:1rem;">
                         The Number of the Certificate (TTFAC)
-                        <div class="tooltip-container">
+                        <div class="tooltip-container tooltip-right-align">
                             <div class="tooltip-icon" tabindex="0" aria-label="Information about Transitional Certificate">?</div>
-                            <div class="tooltip-popup" style="right: 0; left: auto; margin-left: 0; transform: none;"> 
+                            <div class="tooltip-popup">
                                 <strong>Transitional Certificate</strong><br>
-                                If you took pension before 2024, you might have a certificate that proves you used less allowance than assumed. Activating this 'Refreshes' your bucket space.
+                                If thou took pension before 2024, the standard rule assumes thou used 25% allowance. The certificate proves thou used less, restoring thy space!
                             </div>
                         </div>
                     </div>
-                    <span style="font-size:0.875rem; color:#888;">Do you have a certificate?</span>
+                    <span style="font-size:0.875rem; color:#888;">Do you possess a certificate?</span>
                 </div>
                 <label class="switch" aria-label="Toggle Transitional Certificate">
                     <input type="checkbox" id="ttfac-toggle" onchange="updateValues()">
@@ -674,14 +974,126 @@
 </div>
 
 <script>
-    // --- AUDIO SYSTEM REMOVED PER USER REQUEST ---
-
     // --- GAME LOGIC ---
+    let goals = []; // Array of {name, value, id, icon}
+    let pensionInput; // Declare globally
+
+    // Emoji List for random assignment
+    const emojiList = ['💀', '🗡️', '🛡️', '⚡', '🧛', '🧟', '⚰️', '🔮', '🕯️'];
+    let emojiIndex = 0;
+    
+    // Currency Formatting Logic
+    const formatCurrency = (val) => {
+        if(!val) return '';
+        const num = parseFloat(val.toString().replace(/[^0-9.]/g, ''));
+        if(isNaN(num)) return '';
+        return new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP', maximumFractionDigits: 0 }).format(num);
+    };
+
     document.addEventListener('DOMContentLoaded', function() {
+        pensionInput = document.getElementById('base-pension');
+
+        // Initialize with formatted value
+        if (pensionInput) {
+            pensionInput.value = formatCurrency(20000);
+
+            pensionInput.addEventListener('focus', (e) => {
+                const val = e.target.value.replace(/[^0-9.]/g, '');
+                e.target.value = val;
+            });
+
+            pensionInput.addEventListener('blur', (e) => {
+                e.target.value = formatCurrency(e.target.value);
+                updateValues();
+            });
+
+            pensionInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.target.blur();
+                }
+            });
+        }
+        
         updateValues();
     });
 
-    // Track previous value for direction detection
+
+    // --- GOAL SETTING LOGIC (ITEMIZED) ---
+    function addCustomGoal() {
+        const nameInput = document.getElementById('custom-goal-name');
+        const valInput = document.getElementById('custom-goal-val');
+        
+        const name = nameInput.value.trim();
+        const val = parseInt(valInput.value);
+
+        if(name && val > 0) {
+            // Pick an emoji
+            let icon = emojiList[emojiIndex % emojiList.length];
+            // Simple heuristic for icons
+            if(name.toLowerCase().includes('axe') || name.toLowerCase().includes('guitar')) icon = '🎸';
+            if(name.toLowerCase().includes('bus') || name.toLowerCase().includes('tour')) icon = '🚌';
+            if(name.toLowerCase().includes('dungeon') || name.toLowerCase().includes('house')) icon = '🏰';
+            
+            const goal = {
+                id: Date.now(),
+                name: name,
+                value: val,
+                icon: icon
+            };
+            goals.push(goal);
+            goals.sort((a, b) => a.value - b.value);
+            
+            renderTags();
+            emojiIndex++;
+            
+            // Clear inputs
+            nameInput.value = '';
+            valInput.value = '';
+            
+            updateValues();
+        }
+    }
+
+    function toggleGoal(el) {
+        // Toggle preset items
+        const val = parseInt(el.getAttribute('data-value'));
+        const nameText = el.innerText.split('(')[0].trim();
+        const name = nameText.substring(2).trim(); // Remove emoji
+        const icon = nameText.substring(0, 2);
+        
+        // Check if already exists by value/name approx
+        const exists = goals.find(g => g.value === val && g.name === name);
+        
+        if(exists) {
+            removeGoal(exists.id);
+            el.classList.remove('active');
+        } else {
+            const goal = {
+                id: Date.now(),
+                name: name,
+                value: val,
+                icon: icon
+            };
+            goals.push(goal);
+            goals.sort((a, b) => a.value - b.value);
+            el.classList.add('active');
+            renderTags(); // Re-renders list, but preset buttons are outside list-area
+            updateValues();
+        }
+    }
+
+    function removeGoal(id) {
+        goals = goals.filter(g => g.id !== id);
+        renderTags();
+        updateValues();
+    }
+
+    function renderTags() {
+        // Logic handled via toggleGoal mostly for preset
+        // For custom added ones we would need a list area, but UI focused on presets
+    }
+    
+    // Track previous value
     let lastSliderVal = 0;
 
     function updateValues() {
@@ -690,26 +1102,25 @@
         const pensionEl = document.getElementById('val-pension');
         const cashEl = document.getElementById('val-cash');
         const rateDisplay = document.getElementById('rate-display');
-        const pensionInput = document.getElementById('base-pension');
         const percentLabel = document.getElementById('percent-label');
         const marker = document.getElementById('limit-marker');
         
-        // Visual Elements
         const eggVisual = document.getElementById('egg-visual');
         const coinVisual = document.getElementById('coin-visual');
         const gooseContainer = document.getElementById('goose-anim-target');
         const stackContainer = document.getElementById('stack-container');
         
+        // Itemized Stack
+        const goalStack = document.getElementById('goal-stack');
+        const goalFeedback = document.getElementById('goal-feedback');
+        
         const bucketBar = document.getElementById('bucket-bar');
         const tankVal = document.getElementById('tank-val');
         
-        // Icons
-        const iconCar = document.getElementById('icon-car');
-        const iconHouse = document.getElementById('icon-house');
-        const iconWorld = document.getElementById('icon-world');
+        // Dynamic Icon
+        const rewardIcon = document.getElementById('dynamic-reward-icon');
         const iconTax = document.getElementById('icon-tax');
 
-        // Toggle
         const isCertified = document.getElementById('ttfac-toggle').checked;
         
         // --- LOGIC ---
@@ -719,21 +1130,99 @@
         
         rateDisplay.innerText = `Rate: £${factor} cash per £1 income`;
 
-        // Get pension from input, default to 0 if invalid
-        let basePension = parseFloat(pensionInput.value);
+        let rawVal = pensionInput.value.replace(/[^0-9.]/g, '');
+        let basePension = parseFloat(rawVal);
         if (isNaN(basePension) || basePension < 0) basePension = 0;
 
-        const percentTaken = parseFloat(slider.value); // 0 to 25
+        const percentTaken = parseFloat(slider.value); 
         const commuted = basePension * (percentTaken / 100);
         const newPension = basePension - commuted;
         let cash = commuted * factor;
 
         // Limit Logic (LSA)
         const LSA_LIMIT = 268275;
+        
+        // CALCULATE EFFECTIVE LIMIT BASED ON CERTIFICATE
+        // If certified, we simulate a higher available allowance (inverse of the 0.7 visual factor)
+        // This keeps the math in sync with the visual bucket logic
+        let effectiveLimit = LSA_LIMIT;
+        if (isCertified) {
+            effectiveLimit = Math.floor(LSA_LIMIT / 0.7);
+        }
+        
+        // Max Potential Cash (for scale of visual stacks)
+        const maxPotentialCash = basePension * 0.25 * factor;
 
-        // Position Visual Marker
+        // --- ITEMIZED GOAL STACK RENDERING ---
+        goalStack.innerHTML = ''; // Clear previous
+        let currentGoalTotal = 0;
+        
+        // Determine Active Icon based on thresholds
+        let activeIcon = '';
+        let cumValue = 0;
+        goals.forEach(g => {
+             cumValue += g.value;
+             if (cash >= cumValue) {
+                 activeIcon = g.icon; 
+             }
+        });
+
+        if (activeIcon) {
+            rewardIcon.innerText = activeIcon;
+            rewardIcon.classList.add('show');
+        } else {
+            rewardIcon.classList.remove('show');
+        }
+
+        if (goals.length > 0 && maxPotentialCash > 0) {
+            goals.forEach(g => {
+                currentGoalTotal += g.value;
+                const blockHeight = (g.value / maxPotentialCash) * 100;
+                
+                const block = document.createElement('div');
+                block.className = 'goal-item-block';
+                block.style.height = blockHeight + '%';
+                
+                // Add Label
+                const label = document.createElement('div');
+                label.className = 'goal-item-label';
+                label.innerText = g.name;
+                block.appendChild(label);
+                
+                goalStack.appendChild(block);
+            });
+            
+            // Shortfall Check
+            const diff = cash - currentGoalTotal;
+            const fmtDiff = new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP', maximumFractionDigits: 0 }).format(Math.abs(diff));
+            const fmtTotal = new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP', maximumFractionDigits: 0 }).format(currentGoalTotal);
+            
+            if (diff >= 0) {
+                goalFeedback.innerHTML = `
+                    <span class="feedback-label">Relic Total: ${fmtTotal}</span>
+                    <span class="feedback-surplus" style="color:#22c55e">Covered! (+${fmtDiff} surplus)</span>
+                `;
+            } else {
+                goalFeedback.innerHTML = `
+                    <span class="feedback-label">Relic Total: ${fmtTotal}</span>
+                    <span class="feedback-shortfall" style="color:#dc2626">The reckoning is upon thee... (-${fmtDiff})</span>
+                `;
+                // Add visual red tint to stack
+                goalStack.style.borderLeft = "2px dashed #dc2626";
+            }
+
+        } else {
+             goalFeedback.innerHTML = `
+                <span class="feedback-label">No Relics Chosen</span>
+                <span class="feedback-val">Add items above to test thy fortune.</span>
+            `;
+            goalStack.style.borderLeft = "none";
+        }
+
+
+        // Position Visual Marker (Based on Effective Limit)
         if (basePension > 0) {
-            let limitPercent = (LSA_LIMIT * 100) / (basePension * factor);
+            let limitPercent = (effectiveLimit * 100) / (basePension * factor);
             let positionLeft = (limitPercent / 25) * 100;
             
             if (positionLeft > 0 && positionLeft < 100) {
@@ -751,15 +1240,15 @@
         const fmt = new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP', maximumFractionDigits: 0 });
         pensionEl.innerText = fmt.format(newPension);
         
-        // Split Bill & Tax Logic (Re-implemented)
-        if (cash > LSA_LIMIT) {
-            let excess = cash - LSA_LIMIT;
+        // Split Bill & Tax Logic (UPDATED TO USE EFFECTIVE LIMIT)
+        if (cash > effectiveLimit) {
+            let excess = cash - effectiveLimit;
             let tax = excess * 0.40; // 40% Tax Assumption
             let netCash = cash - tax;
             
             cashEl.innerHTML = `
                 <div class="split-bill">
-                    <span class="tax-free-part">${fmt.format(LSA_LIMIT)} (Free)</span>
+                    <span class="tax-free-part">${fmt.format(effectiveLimit)} (Free)</span>
                     <div class="taxable-part">
                         <span>+ ${fmt.format(excess)}</span>
                         <span style="font-size:0.7em; color:#a3a3a3; font-weight:400; margin-left:4px;">(Excess)</span>
@@ -770,21 +1259,12 @@
             `;
             // Trigger Tax Icon
             iconTax.classList.add('show');
-            iconCar.classList.remove('show');
-            iconHouse.classList.remove('show');
-            iconWorld.classList.remove('show');
+            rewardIcon.classList.remove('show'); // Hide normal icon if tax warning
         } else {
             cashEl.innerText = fmt.format(cash);
             iconTax.classList.remove('show');
-            
-            // Standard Icons
-            iconCar.classList.remove('show');
-            iconHouse.classList.remove('show');
-            iconWorld.classList.remove('show');
-
-            if (cash > 10000 && cash < 50000) iconCar.classList.add('show');
-            else if (cash >= 50000 && cash < 100000) iconHouse.classList.add('show');
-            else if (cash >= 100000) iconWorld.classList.add('show');
+            // If active icon exists, re-show it (if not blocked by tax)
+            if(activeIcon) rewardIcon.classList.add('show');
         }
         
         // --- ANIMATIONS ---
@@ -803,32 +1283,31 @@
         const bounce = Math.sin(percentTaken * 0.5) * 6; // 6px amplitude
         gooseContainer.style.transform = `translateY(${bounce}px)`;
 
-        // 4. Dropping Coins Logic (Visual Only)
+        // 4. Dropping Coins Logic
         if (percentTaken > lastSliderVal) {
             spawnCoin();
         }
         lastSliderVal = percentTaken;
 
         // 5. Tax Bucket Logic
-        let percentageUsed = (cash / LSA_LIMIT) * 100;
-        let visualPercentage = percentageUsed; 
-
+        // We use the same effective ratio so the visuals match the math
+        let percentageUsed = (cash / effectiveLimit) * 100;
+        
         if (isCertified) {
-            visualPercentage = visualPercentage * 0.7; 
             bucketBar.classList.add('gold-mode');
         } else {
             bucketBar.classList.remove('gold-mode');
         }
         
-        // Overflow Logic (Red Warning)
-        if (visualPercentage > 100) {
-            visualPercentage = 100;
+        // Overflow Logic
+        if (percentageUsed > 100) {
+            percentageUsed = 100;
             bucketBar.classList.add('danger-mode');
             tankVal.style.color = '#dc2626';
             tankVal.innerText = "OVERFLOW!";
         } else {
             bucketBar.classList.remove('danger-mode');
-            tankVal.style.color = 'inherit';
+            tankVal.style.color = '#888';
             if(cash === 0) {
                  tankVal.innerText = "0% Full";
             } else {
@@ -836,7 +1315,7 @@
             }
         }
         
-        bucketBar.style.width = visualPercentage + "%";
+        bucketBar.style.width = percentageUsed + "%";
     }
 
     function spawnCoin() {
@@ -855,6 +1334,5 @@
         }, 500);
     }
 </script>
-
 </body>
 </html>
